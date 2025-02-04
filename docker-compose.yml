@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  mosy:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "1420:1420"
+    environment:
+      - TAURI_DEV_SERVER_URL=http://localhost:8080
+    command: cargo tauri dev
+
+  frontend:
+    image: node:16
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: npx http-server src -p 8080 --cors
+    ports:
+      - "8080:8080"

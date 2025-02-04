@@ -1,0 +1,52 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+      
+      - name: Install dependencies
+        run: cargo install tauri-cli
+      
+      - name: Build project
+        run: cargo tauri build
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tauri-build-${{ matrix.os }}
+          path: src-tauri/target/release/bundle/
+  
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: tauri-build-ubuntu-latest
+          path: dist/
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

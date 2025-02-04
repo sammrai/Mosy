@@ -1,0 +1,14 @@
+{
+    "build": {
+      "distDir": "../src",
+      "devPath": "http://localhost:8080"
+    },
+    "tauri": {
+      "bundle": {
+        "active": true,
+        "identifier": "com.example.mosy",
+        "targets": [ "dmg", "msi", "appimage" ]
+      }
+    }
+  }
+  

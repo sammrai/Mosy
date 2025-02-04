@@ -1,0 +1,11 @@
+{
+    "name": "mosy-frontend",
+    "version": "0.1.0",
+    "scripts": {
+      "dev": "http-server src -p 8080"
+    },
+    "dependencies": {
+      "http-server": "^14.1.1"
+    }
+  }
+  
