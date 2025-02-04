@@ -29,7 +29,7 @@ jobs:
         run: cargo tauri build
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tauri-build-${{ matrix.os }}
           path: src-tauri/target/release/bundle/
